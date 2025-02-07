@@ -3,39 +3,49 @@ name: Java CI with Maven
 on:
   push:
     branches: [ main ]  # Trigger on push to the main branch
-  pull_request:
-    branches: [ main ]  # Trigger on pull requests to the main branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3  # Check out the repository code
 
-    - name: Set up JDK 17
+    - name: Maven Build
       uses: actions/setup-java@v3
       with:
-        java-version: '17'  # Use Java 17 (or the version your project uses)
-        distribution: 'temurin'  # Use Temurin (Adoptium) JDK
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'maven'  # Use Temurin (Adoptium) JDK
 
-    - name: Cache Maven packages
-      uses: actions/cache@v3
+    - name: Maven Build & Sonar analysis
+        #        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+      run: mvn -B verify --file pom.xml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
       with:
-        path: ~/.m2/repository  # Cache Maven dependencies
-        key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          maven-${{ runner.os }}-
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml  # Build the project using Maven
-
-    - name: Run tests
-      run: mvn test  # Run unit tests
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
-        name: target
-        path: target/
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
