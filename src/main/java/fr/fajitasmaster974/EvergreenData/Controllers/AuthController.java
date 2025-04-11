@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.fajitasmaster974.EvergreenData.Config.JwtUtils;
 import fr.fajitasmaster974.EvergreenData.DTO.TokenDTO;
+import fr.fajitasmaster974.EvergreenData.DTO.UserDTO;
 import fr.fajitasmaster974.EvergreenData.DTO.Body.LogInBody;
 import fr.fajitasmaster974.EvergreenData.DTO.Body.SignInBody;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
@@ -42,11 +43,11 @@ public class AuthController {
 
     @PostMapping("/signIn")
     public ResponseEntity<TokenDTO> addNewUser(@RequestBody @Valid SignInBody signInBody) {
-        String encodedPass = passwordEncoder.encode(signInBody.password);
-        User user = userService.createUser(signInBody.login, signInBody.email, encodedPass);
+        String encodedPass = passwordEncoder.encode(signInBody.getPassword());
+        User user = userService.createUser(signInBody.getLogin(), signInBody.getEmail(), encodedPass);
 
         String token = jwtUtils.generateToken(user);
-        return new ResponseEntity<>(new TokenDTO(token, user), HttpStatus.OK);
+        return new ResponseEntity<>(new TokenDTO(new UserDTO(user), token), HttpStatus.OK);
     }
 
 
@@ -54,15 +55,15 @@ public class AuthController {
     public ResponseEntity<TokenDTO> authenticateAndGetToken(@RequestBody @Valid LogInBody logInBody) {
         try{
             UsernamePasswordAuthenticationToken authInputToken =
-                    new UsernamePasswordAuthenticationToken(logInBody.login, logInBody.password);
+                    new UsernamePasswordAuthenticationToken(logInBody.getLogin(), logInBody.getPassword());
             authenticationManager.authenticate(authInputToken);
 
-            Optional<User> optionalUser = userService.getUserByLogin(logInBody.login);
+            Optional<User> optionalUser = userService.getUserByLogin(logInBody.getLogin());
             User user = optionalUser.orElseThrow();
             String token = jwtUtils.generateToken(user);
 
 
-            return new ResponseEntity<>(new TokenDTO(token, user), HttpStatus.OK);
+            return new ResponseEntity<TokenDTO>(new TokenDTO(new UserDTO(user), token), HttpStatus.OK);
         } catch(AuthenticationException authExc){
             throw new RuntimeException("Invalid username/password.");
         }

@@ -30,6 +30,7 @@ public class AdminController {
             throw new Exception("user not found");
         }
 
-        return new ResponseEntity<>(new UserDTO(optionalUser.get()), HttpStatus.OK);
+        return new ResponseEntity<UserDTO>(new UserDTO(optionalUser.get()), HttpStatus.OK);
     }
+
 }

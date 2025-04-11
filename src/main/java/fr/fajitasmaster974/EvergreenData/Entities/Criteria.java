@@ -2,7 +2,6 @@ package fr.fajitasmaster974.EvergreenData.Entities;
 
 import java.util.Set;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,26 +13,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "subjects")
-public class Subject {
+@Entity
+@Table(name = "criterias")
+public class Criteria {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private Set<SubjectDeputy> deputies;
+    @OneToMany(mappedBy = "criteria", cascade = CascadeType.ALL)
+    private Set<SubjectCriteria> subjects;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private Set<SubjectCriteria> criterias;
+    @OneToMany(mappedBy = "criteria")
+    private Set<Documentation> documentions;
 
-    private String title;
+    private String name;
 
-    public Subject(String title) {
-        this.title = title;
+    public Criteria(String name) {
+        this.name = name;
     }
 }

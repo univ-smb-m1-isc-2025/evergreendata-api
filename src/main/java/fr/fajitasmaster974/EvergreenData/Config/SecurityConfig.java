@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import fr.fajitasmaster974.EvergreenData.Entities.Role;
+import fr.fajitasmaster974.EvergreenData.Entities.Enum.Role;
 import fr.fajitasmaster974.EvergreenData.FIlter.JwtAuthFilter;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/*", "/api/test/**", "/api/test/*").permitAll()
+                        .requestMatchers("/api/auth/*", "/api/test/**", "/api/subject/**").permitAll()
                         .requestMatchers("/api/user/**").hasAnyAuthority(Role.user.name(), Role.admin.name())
                         .requestMatchers("/api/admin/**").hasAuthority(Role.admin.name())
                         .anyRequest().authenticated())

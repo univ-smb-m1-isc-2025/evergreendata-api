@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import fr.fajitasmaster974.EvergreenData.Entities.Role;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
+import fr.fajitasmaster974.EvergreenData.Entities.Enum.Role;
 import fr.fajitasmaster974.EvergreenData.Repositories.UserRepository;
 
 
@@ -41,6 +41,12 @@ public class UserService implements UserDetailsService {
 
     public User createUser(String login, String email, String password) {
         User user = new User(password, login, email, Role.user);
+        userRepository.save(user);
+        return user;
+    }
+
+    public User createAdmin(String login, String email, String password) {
+        User user = new User(password, login, email, Role.admin);
         userRepository.save(user);
         return user;
     }

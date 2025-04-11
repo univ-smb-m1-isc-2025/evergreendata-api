@@ -1,7 +1,6 @@
 package fr.fajitasmaster974.EvergreenData.Entities;
 
-
-import fr.fajitasmaster974.EvergreenData.Entities.Id.SubjectUserId;
+import fr.fajitasmaster974.EvergreenData.Entities.Id.SubjectCriteriaId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -11,28 +10,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@NoArgsConstructor
+
 @Setter
 @Getter
-@Table(name = "subject_deputy")
-public class SubjectDeputy {
-    
+@NoArgsConstructor
+@Entity
+@Table(name = "subject_criteria")
+public class SubjectCriteria {
 
     @EmbeddedId
-    private SubjectUserId id;
+    private SubjectCriteriaId id;
 
     @ManyToOne
-    @MapsId("userId")
-    private User deputy;
+    @MapsId("criteriaId")
+    private Criteria criteria;
 
     @ManyToOne
     @MapsId("subjectId")
     private Subject subject;
 
-    public SubjectDeputy(User deputy, Subject subject) {
-        this.id = new SubjectUserId(deputy.getId(), subject.getId());
-        this.deputy = deputy;
+    public SubjectCriteria(Criteria criteria, Subject subject) {
+        this.id = new SubjectCriteriaId(subject.getId(), criteria.getId());
+        this.criteria = criteria;
         this.subject = subject;
     }
 }

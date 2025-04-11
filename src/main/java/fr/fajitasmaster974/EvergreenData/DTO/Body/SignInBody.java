@@ -1,9 +1,12 @@
 package fr.fajitasmaster974.EvergreenData.DTO.Body;
 
+import lombok.Data;
+
+@Data
 public class SignInBody {
-    public String login;
+    private String login;
 
-    public String password;
+    private String password;
 
-    public String email;
+    private String email;
 }

@@ -10,4 +10,6 @@ import fr.fajitasmaster974.EvergreenData.Entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
     public Optional<User> findByLogin(String login);
+
+    public boolean existsByLogin(String login);
 }

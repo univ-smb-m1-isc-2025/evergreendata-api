@@ -8,11 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.fajitasmaster974.EvergreenData.DTO.UserDTO;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
 
@@ -32,7 +31,7 @@ public class TestControl {
 
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUser(Principal principal) {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> getAllUser(Principal principal) {
+        return new ResponseEntity<>(UserDTO.fromList(userService.getAllUsers()), HttpStatus.OK);
     }
 }
