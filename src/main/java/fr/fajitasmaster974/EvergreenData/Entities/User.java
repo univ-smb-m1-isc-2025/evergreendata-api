@@ -2,15 +2,18 @@ package fr.fajitasmaster974.EvergreenData.Entities;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,6 +28,29 @@ public class User implements UserDetails {
     private String email;
     private Role role;
 
+    @OneToMany(mappedBy = "deputy", cascade = CascadeType.ALL)
+    private Set<SubjectDeputy> deputySubjects;
+
+    @OneToMany(mappedBy = "principal")
+    private Set<Subject> principalSubjects;
+
+
+
+    public Set<SubjectDeputy> getDeputySubjects() {
+        return deputySubjects;
+    }
+
+    public void setDeputySubjects(Set<SubjectDeputy> deputySubjects) {
+        this.deputySubjects = deputySubjects;
+    }
+
+    public Set<Subject> getPrincipalSubjects() {
+        return principalSubjects;
+    }
+
+    public void setPrincipalSubjects(Set<Subject> principalSubjects) {
+        this.principalSubjects = principalSubjects;
+    }
 
     public User(String password, String login, String email, Role role) {
         this.password = password;

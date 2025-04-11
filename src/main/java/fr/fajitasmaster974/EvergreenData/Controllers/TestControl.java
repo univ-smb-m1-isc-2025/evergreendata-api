@@ -13,17 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.fajitasmaster974.EvergreenData.Entities.Test;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
-import fr.fajitasmaster974.EvergreenData.Services.TestService;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
 
 @RestController
 @RequestMapping("/api/test")
 public class TestControl {
 
-    @Autowired
-    private TestService testService;
 
     @Autowired
     private UserService userService;
@@ -35,20 +31,8 @@ public class TestControl {
     }
 
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Test>> getAll(Principal principal) {
-        return new ResponseEntity<>(testService.getAllTests(), HttpStatus.OK);
-    }
-
-
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUser(Principal principal) {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-    }
-
-    @PostMapping("/create")
-    public ResponseEntity<Test> createTest(@RequestBody Test test) {
-        test = testService.saveTest(new Test(test.getNumber()));
-        return new ResponseEntity<>(test, HttpStatus.OK);
     }
 }
