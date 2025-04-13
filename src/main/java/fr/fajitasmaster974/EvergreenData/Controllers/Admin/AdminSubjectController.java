@@ -1,4 +1,4 @@
-package fr.fajitasmaster974.EvergreenData.Controllers;
+package fr.fajitasmaster974.EvergreenData.Controllers.Admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.fajitasmaster974.EvergreenData.DTO.SubjectDTO;
 import fr.fajitasmaster974.EvergreenData.DTO.SubjectFullDTO;
+import fr.fajitasmaster974.EvergreenData.DTO.Body.AssignCriteriaBody;
 import fr.fajitasmaster974.EvergreenData.DTO.Body.AssignDeputyBody;
 import fr.fajitasmaster974.EvergreenData.DTO.Body.NewSubjectBody;
 import fr.fajitasmaster974.EvergreenData.DTO.Body.SuprSubjectBody;
@@ -40,6 +40,12 @@ public class AdminSubjectController {
     @PostMapping("/assignDeputy")
     public ResponseEntity<SubjectFullDTO> assignDeputy(@Valid @RequestBody AssignDeputyBody subjectDTO) {
         Subject subject = subjectService.assignDeputy(subjectDTO.getUserId(), subjectDTO.getSubjectId());
+        return new ResponseEntity<>(new SubjectFullDTO(subject), HttpStatus.OK);
+    }
+
+    @PostMapping("/assignCriteria")
+    public ResponseEntity<SubjectFullDTO> assignCriteria(@Valid @RequestBody AssignCriteriaBody subjectDTO) {
+        Subject subject = subjectService.assignCriteria(subjectDTO.getCriteriaId(), subjectDTO.getSubjectId());
         return new ResponseEntity<>(new SubjectFullDTO(subject), HttpStatus.OK);
     }
 }

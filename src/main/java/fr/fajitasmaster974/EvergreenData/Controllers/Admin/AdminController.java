@@ -1,4 +1,4 @@
-package fr.fajitasmaster974.EvergreenData.Controllers;
+package fr.fajitasmaster974.EvergreenData.Controllers.Admin;
 
 import java.security.Principal;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package fr.fajitasmaster974.EvergreenData.Entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,19 +24,19 @@ public class Documentation {
     private Integer id;
 
     @ManyToOne
-    private User author;
-
-    @ManyToOne
-    private Criteria criteria;
+    private SubjectCriteria subjectCriteria;
 
     private String content;
 
-    private LocalDate lastUpdate;
+    private LocalDateTime lastUpdate;
 
-    public Documentation(User author, Criteria criteria, String content) {
-        this.author = author;
-        this.criteria = criteria;
+    @ManyToOne
+    private User author;
+
+    public Documentation(SubjectCriteria subjectCriteria, String content, User author) {
+        this.subjectCriteria = subjectCriteria;
         this.content = content;
-        this.lastUpdate = LocalDate.now();
+        this.lastUpdate = LocalDateTime.now();
+        this.author = author;
     }
 }

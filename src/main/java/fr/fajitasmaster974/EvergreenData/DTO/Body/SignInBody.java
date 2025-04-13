@@ -9,4 +9,8 @@ public class SignInBody {
     private String password;
 
     private String email;
+
+    private String lastName;
+
+    private String firstName;
 }

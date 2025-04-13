@@ -1,5 +1,6 @@
 package fr.fajitasmaster974.EvergreenData.Entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -35,5 +36,7 @@ public class Subject {
 
     public Subject(String title) {
         this.title = title;
+        this.deputies = new HashSet<>();
+        this.criterias = new HashSet<>();
     }
 }

@@ -1,7 +1,10 @@
 package fr.fajitasmaster974.EvergreenData.Entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -35,18 +38,25 @@ public class User implements UserDetails {
     private String login;
     private String email;
     private Role role;
+    private String lastName;
+    private String firstName;
 
     @OneToMany(mappedBy = "deputy", cascade = CascadeType.ALL)
     private Set<SubjectDeputy> deputySubjects;
 
     @OneToMany(mappedBy = "author")
-    private Set<Documentation> documentions;
+    private Set<Documentation> documentations;
  
-    public User(String password, String login, String email, Role role) {
+    public User(String password, String login, String email, Role role, String lastName, String firstName) {
         this.password = password;
         this.login = login;
         this.email = email;
         this.role = role;
+        this.lastName = lastName;
+        this.firstName = firstName;
+
+        this.deputySubjects = new HashSet<>();
+        this.documentations = new HashSet<>();
     }
 
     @Override
@@ -68,5 +78,18 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return login;
+    }
+
+
+
+
+    public List<Subject> getSubjects() {
+        List<Subject> subjects = new ArrayList<>();
+
+        for (SubjectDeputy subjectDeputy : deputySubjects) {
+            subjects.add(subjectDeputy.getSubject());
+        }
+
+        return subjects;
     }
 }

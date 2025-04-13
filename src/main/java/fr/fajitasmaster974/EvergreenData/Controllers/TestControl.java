@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.fajitasmaster974.EvergreenData.DTO.UserDTO;
-import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
 
 @RestController

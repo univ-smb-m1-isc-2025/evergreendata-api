@@ -1,6 +1,5 @@
 package fr.fajitasmaster974.EvergreenData.Config;
 
-import org.hibernate.annotations.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +21,7 @@ public class AdminInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (!userRepository.existsByLogin("yvesAdmin")) {
             String password = passwordEncoder.encode("password");
-            userService.createAdmin("yvesAdmin", "YvesG@gmail.com", password);
+            userService.createAdmin("yvesAdmin", "YvesG@gmail.com", password, "yves", "yves");
             System.out.println("Admin account created");
         }
     }

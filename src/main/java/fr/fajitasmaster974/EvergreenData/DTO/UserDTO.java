@@ -3,7 +3,6 @@ package fr.fajitasmaster974.EvergreenData.DTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import fr.fajitasmaster974.EvergreenData.Entities.SubjectDeputy;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
@@ -17,6 +16,8 @@ public class UserDTO {
     private String login;
     private String email;
     private Role role;
+    private String lastName;
+    private String firstName;
     private Integer id;
 
     public UserDTO(User user) {
@@ -24,6 +25,8 @@ public class UserDTO {
         this.email = user.getEmail();
         this.role = user.getRole();
         this.id = user.getId();
+        this.lastName = user.getLastName();
+        this.firstName = user.getFirstName();
     }
 
     public static List<UserDTO> fromList(List<User> users) {

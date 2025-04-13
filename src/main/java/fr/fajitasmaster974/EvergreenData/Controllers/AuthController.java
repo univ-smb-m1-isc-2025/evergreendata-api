@@ -44,7 +44,7 @@ public class AuthController {
     @PostMapping("/signIn")
     public ResponseEntity<TokenDTO> addNewUser(@RequestBody @Valid SignInBody signInBody) {
         String encodedPass = passwordEncoder.encode(signInBody.getPassword());
-        User user = userService.createUser(signInBody.getLogin(), signInBody.getEmail(), encodedPass);
+        User user = userService.createUser(signInBody.getLogin(), signInBody.getEmail(), encodedPass, signInBody.getFirstName(), signInBody.getLastName());
 
         String token = jwtUtils.generateToken(user);
         return new ResponseEntity<>(new TokenDTO(new UserDTO(user), token), HttpStatus.OK);

@@ -1,5 +1,6 @@
 package fr.fajitasmaster974.EvergreenData.Entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -27,12 +28,10 @@ public class Criteria {
     @OneToMany(mappedBy = "criteria", cascade = CascadeType.ALL)
     private Set<SubjectCriteria> subjects;
 
-    @OneToMany(mappedBy = "criteria")
-    private Set<Documentation> documentions;
-
     private String name;
 
     public Criteria(String name) {
         this.name = name;
+        this.subjects = new HashSet<>();
     }
 }

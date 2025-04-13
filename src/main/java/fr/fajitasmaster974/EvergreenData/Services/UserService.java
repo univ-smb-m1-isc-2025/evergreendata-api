@@ -39,14 +39,14 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public User createUser(String login, String email, String password) {
-        User user = new User(password, login, email, Role.user);
+    public User createUser(String login, String email, String password, String firstName, String lastName) {
+        User user = new User(password, login, email, Role.user, lastName, firstName);
         userRepository.save(user);
         return user;
     }
 
-    public User createAdmin(String login, String email, String password) {
-        User user = new User(password, login, email, Role.admin);
+    public User createAdmin(String login, String email, String password, String firstName, String lastName) {
+        User user = new User(password, login, email, Role.admin, lastName, firstName);
         userRepository.save(user);
         return user;
     }
