@@ -36,6 +36,9 @@ public class UserDTO {
 
     public static List<UserDTO> fromList(Set<SubjectDeputy> users) {
         List<UserDTO> userDTOs = new ArrayList<UserDTO>();
+        if (users == null) {
+            return userDTOs;
+        }
         for (SubjectDeputy user : users) {
             userDTOs.add(new UserDTO(user.getDeputy()));
         }
