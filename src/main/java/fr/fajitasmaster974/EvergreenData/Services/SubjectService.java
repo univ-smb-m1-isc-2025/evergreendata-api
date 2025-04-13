@@ -78,7 +78,7 @@ public class SubjectService {
         return subjectRepository.findById(id).orElseThrow(() -> new NotFoundException("Subject not found"));
     }
 
-    public List<Subject> getAllUserSubjects(Integer userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found")).getSubjects();
+    public List<Subject> getAllUserJoinedSubjects(Integer userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found")).getJoinedSubjects();
     }
 }

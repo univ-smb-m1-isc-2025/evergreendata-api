@@ -11,8 +11,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import fr.fajitasmaster974.EvergreenData.Entities.Documentation;
+import fr.fajitasmaster974.EvergreenData.Entities.SubjectDeputy;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Entities.Enum.Role;
+import fr.fajitasmaster974.EvergreenData.Exception.NotFoundException;
+import fr.fajitasmaster974.EvergreenData.Repositories.DocumentationRepository;
+import fr.fajitasmaster974.EvergreenData.Repositories.SubjectDeputyRepository;
 import fr.fajitasmaster974.EvergreenData.Repositories.UserRepository;
 
 
@@ -20,6 +25,8 @@ import fr.fajitasmaster974.EvergreenData.Repositories.UserRepository;
 public class UserService implements UserDetailsService {
     
     @Autowired private UserRepository userRepository;
+    @Autowired private SubjectDeputyRepository subjectDeputyRepository;
+    @Autowired private DocumentationRepository documentationRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -57,6 +64,18 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> getUserByLogin(String login) {
         return userRepository.findByLogin(login);
+    }
+
+
+
+
+    public void invalidUser(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+    
+        user.getDocumentations().clear();
+        user.getJoinedSubjectsDeputy().clear();
+
+        userRepository.save(user);
     }
 }
 

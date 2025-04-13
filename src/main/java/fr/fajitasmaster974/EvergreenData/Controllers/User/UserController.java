@@ -1,6 +1,7 @@
-package fr.fajitasmaster974.EvergreenData.Controllers.Admin;
+package fr.fajitasmaster974.EvergreenData.Controllers.User;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +13,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.fajitasmaster974.EvergreenData.DTO.SubjectCriteriaDTO;
+import fr.fajitasmaster974.EvergreenData.DTO.SubjectDTO;
 import fr.fajitasmaster974.EvergreenData.DTO.UserDTO;
-import fr.fajitasmaster974.EvergreenData.DTO.Body.InvalidUserBody;
+import fr.fajitasmaster974.EvergreenData.DTO.Body.ResponseBody;
+import fr.fajitasmaster974.EvergreenData.Entities.SubjectCriteria;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Exception.NotFoundException;
+import fr.fajitasmaster974.EvergreenData.Services.CriteriaService;
+import fr.fajitasmaster974.EvergreenData.Services.SubjectService;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/admin")
-public class AdminController {
+@RequestMapping("/api/user")
+public class UserController {
     
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CriteriaService criteriaService;
+
 
     @GetMapping("/info")
     public ResponseEntity<UserDTO> getUser(Principal principal) throws Exception {
@@ -32,16 +42,9 @@ public class AdminController {
         Optional<User> optionalUser = userService.getUserByLogin(login);
 
         if (optionalUser.isEmpty()) {
-            throw new NotFoundException("user not found");
+            throw new Exception("user not found");
         }
 
-        return new ResponseEntity<UserDTO>(new UserDTO(optionalUser.get()), HttpStatus.OK);
+        return new ResponseEntity<>(new UserDTO(optionalUser.get()), HttpStatus.OK);
     }
-
-
-    @PostMapping("/invalid")
-    public ResponseEntity<Void> invalidUser(@RequestBody @Valid InvalidUserBody invalidUserBody) {
-        userService.invalidUser(invalidUserBody.getUserId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    } 
 }

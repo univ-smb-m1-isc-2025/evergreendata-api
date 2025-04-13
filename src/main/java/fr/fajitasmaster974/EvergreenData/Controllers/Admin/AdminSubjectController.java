@@ -43,7 +43,7 @@ public class AdminSubjectController {
         return new ResponseEntity<>(new SubjectFullDTO(subject), HttpStatus.OK);
     }
 
-    @PostMapping("/assignCriteria")
+    @PostMapping("assignCriteria")
     public ResponseEntity<SubjectFullDTO> assignCriteria(@Valid @RequestBody AssignCriteriaBody subjectDTO) {
         Subject subject = subjectService.assignCriteria(subjectDTO.getCriteriaId(), subjectDTO.getSubjectId());
         return new ResponseEntity<>(new SubjectFullDTO(subject), HttpStatus.OK);

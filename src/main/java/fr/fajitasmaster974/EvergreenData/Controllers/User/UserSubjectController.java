@@ -1,4 +1,4 @@
-package fr.fajitasmaster974.EvergreenData.Controllers;
+package fr.fajitasmaster974.EvergreenData.Controllers.User;
 
 import java.security.Principal;
 import java.util.List;
@@ -26,38 +26,23 @@ import fr.fajitasmaster974.EvergreenData.Services.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/user")
-public class UserController {
+@RequestMapping("/api/user/subject")
+public class UserSubjectController {
     
     @Autowired
     private UserService userService;
-    @Autowired
-    private SubjectService subjectService;
 
     @Autowired
     private CriteriaService criteriaService;
 
 
-    @GetMapping("/info")
-    public ResponseEntity<UserDTO> getUser(Principal principal) throws Exception {
-        String login = principal.getName();
-        Optional<User> optionalUser = userService.getUserByLogin(login);
 
-        if (optionalUser.isEmpty()) {
-            throw new Exception("user not found");
-        }
-
-        return new ResponseEntity<>(new UserDTO(optionalUser.get()), HttpStatus.OK);
-    }
-
-
-    @GetMapping("/subjects")
-    public ResponseEntity<List<SubjectDTO>> getSubjects(Principal principal) {
+    @GetMapping("/joined")
+    public ResponseEntity<List<SubjectDTO>> getJoinedSubjects(Principal principal) {
         String login = principal.getName();
         User user = userService.getUserByLogin(login).orElseThrow(() -> new NotFoundException("user not found"));
-        return new ResponseEntity<>(SubjectDTO.fromSubjects(user.getSubjects()), HttpStatus.OK);
+        return new ResponseEntity<>(SubjectDTO.fromSubjects(user.getJoinedSubjects()), HttpStatus.OK);
     }
-
 
     @PostMapping("/response")
     public ResponseEntity<SubjectCriteriaDTO> response(Principal principal, @RequestBody @Valid ResponseBody responseBody) {

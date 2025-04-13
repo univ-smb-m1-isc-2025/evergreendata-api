@@ -41,10 +41,10 @@ public class User implements UserDetails {
     private String lastName;
     private String firstName;
 
-    @OneToMany(mappedBy = "deputy", cascade = CascadeType.ALL)
-    private Set<SubjectDeputy> deputySubjects;
+    @OneToMany(mappedBy = "deputy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SubjectDeputy> joinedSubjectsDeputy;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Documentation> documentations;
  
     public User(String password, String login, String email, Role role, String lastName, String firstName) {
@@ -55,7 +55,7 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.firstName = firstName;
 
-        this.deputySubjects = new HashSet<>();
+        this.joinedSubjectsDeputy = new HashSet<>();
         this.documentations = new HashSet<>();
     }
 
@@ -81,15 +81,14 @@ public class User implements UserDetails {
     }
 
 
-
-
-    public List<Subject> getSubjects() {
+    public List<Subject> getJoinedSubjects() {
         List<Subject> subjects = new ArrayList<>();
 
-        for (SubjectDeputy subjectDeputy : deputySubjects) {
+        for (SubjectDeputy subjectDeputy : joinedSubjectsDeputy) {
             subjects.add(subjectDeputy.getSubject());
         }
 
         return subjects;
     }
+
 }
