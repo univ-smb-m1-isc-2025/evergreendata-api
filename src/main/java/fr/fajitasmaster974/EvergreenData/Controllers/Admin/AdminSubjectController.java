@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.fajitasmaster974.EvergreenData.DTO.SubjectFullDTO;
-import fr.fajitasmaster974.EvergreenData.DTO.Body.AssignCriteriaBody;
-import fr.fajitasmaster974.EvergreenData.DTO.Body.AssignDeputyBody;
 import fr.fajitasmaster974.EvergreenData.DTO.Body.NewSubjectBody;
-import fr.fajitasmaster974.EvergreenData.DTO.Body.SuprSubjectBody;
+import fr.fajitasmaster974.EvergreenData.DTO.Body.SubjectCriteriaIdBody;
+import fr.fajitasmaster974.EvergreenData.DTO.Body.SubjectIdBody;
+import fr.fajitasmaster974.EvergreenData.DTO.Body.UserSubjectIdBody;
 import fr.fajitasmaster974.EvergreenData.Entities.Subject;
 import fr.fajitasmaster974.EvergreenData.Services.SubjectService;
 import jakarta.validation.Valid;
@@ -32,20 +32,20 @@ public class AdminSubjectController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteSubject(@Valid @RequestBody SuprSubjectBody suprSubjectBody) {
-        subjectService.delete(suprSubjectBody.getSubjectId());
+    public ResponseEntity<Void> deleteSubject(@Valid @RequestBody SubjectIdBody body) {
+        subjectService.delete(body.getSubjectId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/assignDeputy")
-    public ResponseEntity<SubjectFullDTO> assignDeputy(@Valid @RequestBody AssignDeputyBody subjectDTO) {
-        Subject subject = subjectService.assignDeputy(subjectDTO.getUserId(), subjectDTO.getSubjectId());
+    public ResponseEntity<SubjectFullDTO> assignDeputy(@Valid @RequestBody UserSubjectIdBody body) {
+        Subject subject = subjectService.assignDeputy(body.getUserId(), body.getSubjectId());
         return new ResponseEntity<>(new SubjectFullDTO(subject), HttpStatus.OK);
     }
 
     @PostMapping("assignCriteria")
-    public ResponseEntity<SubjectFullDTO> assignCriteria(@Valid @RequestBody AssignCriteriaBody subjectDTO) {
-        Subject subject = subjectService.assignCriteria(subjectDTO.getCriteriaId(), subjectDTO.getSubjectId());
+    public ResponseEntity<SubjectFullDTO> assignCriteria(@Valid @RequestBody SubjectCriteriaIdBody body) {
+        Subject subject = subjectService.assignCriteria(body.getCriteriaId(), body.getSubjectId());
         return new ResponseEntity<>(new SubjectFullDTO(subject), HttpStatus.OK);
     }
 }

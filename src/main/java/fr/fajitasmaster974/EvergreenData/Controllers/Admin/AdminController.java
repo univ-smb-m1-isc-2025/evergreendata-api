@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.fajitasmaster974.EvergreenData.DTO.UserDTO;
-import fr.fajitasmaster974.EvergreenData.DTO.Body.InvalidUserBody;
+import fr.fajitasmaster974.EvergreenData.DTO.Body.UserIdBody;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Exception.NotFoundException;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
@@ -40,8 +40,8 @@ public class AdminController {
 
 
     @PostMapping("/invalid")
-    public ResponseEntity<Void> invalidUser(@RequestBody @Valid InvalidUserBody invalidUserBody) {
-        userService.invalidUser(invalidUserBody.getUserId());
+    public ResponseEntity<Void> invalidUser(@RequestBody @Valid UserIdBody body) {
+        userService.invalidUser(body.getUserId());
         return new ResponseEntity<>(HttpStatus.OK);
     } 
 }

@@ -3,7 +3,7 @@ package fr.fajitasmaster974.EvergreenData.DTO.Body;
 import lombok.Data;
 
 @Data
-public class AssignCriteriaBody {
+public class UserSubjectIdBody {
     private Integer subjectId;
-    private Integer criteriaId;
+    private Integer userId;
 }
