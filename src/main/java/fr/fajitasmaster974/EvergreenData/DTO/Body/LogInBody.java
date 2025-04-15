@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class LogInBody {
     private String password;
-    private String login;
+    private String email;
 }

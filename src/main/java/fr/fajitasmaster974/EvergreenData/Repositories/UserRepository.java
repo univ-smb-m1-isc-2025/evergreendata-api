@@ -9,7 +9,7 @@ import fr.fajitasmaster974.EvergreenData.Entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
-    public Optional<User> findByLogin(String login);
+    public Optional<User> findByEmail(String email);
 
-    public boolean existsByLogin(String login);
+    public boolean existsByEmail(String email);
 }

@@ -19,9 +19,10 @@ public class AdminInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (!userRepository.existsByLogin("yvesAdmin")) {
+
+        if (!userRepository.existsByEmail("YvesG@gmail.com")) {
             String password = passwordEncoder.encode("password");
-            userService.createAdmin("yvesAdmin", "YvesG@gmail.com", password, "yves", "yves");
+            userService.createAdmin("YvesG@gmail.com", password, "yves", "yves");
             System.out.println("Admin account created");
         }
     }

@@ -35,7 +35,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String password;
-    private String login;
     private String email;
     private Role role;
     private String lastName;
@@ -47,9 +46,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Documentation> documentations;
  
-    public User(String password, String login, String email, Role role, String lastName, String firstName) {
+    public User(String password, String email, Role role, String lastName, String firstName) {
         this.password = password;
-        this.login = login;
         this.email = email;
         this.role = role;
         this.lastName = lastName;
@@ -77,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
 

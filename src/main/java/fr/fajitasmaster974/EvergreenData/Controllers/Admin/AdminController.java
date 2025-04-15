@@ -28,8 +28,8 @@ public class AdminController {
 
     @GetMapping("/info")
     public ResponseEntity<UserDTO> getUser(Principal principal) throws Exception {
-        String login = principal.getName();
-        Optional<User> optionalUser = userService.getUserByLogin(login);
+        String email = principal.getName();
+        Optional<User> optionalUser = userService.getUserByEmail(email);
 
         if (optionalUser.isEmpty()) {
             throw new NotFoundException("user not found");

@@ -2,7 +2,6 @@ package fr.fajitasmaster974.EvergreenData.Controllers.User;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,13 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.fajitasmaster974.EvergreenData.DTO.SubjectCriteriaDTO;
 import fr.fajitasmaster974.EvergreenData.DTO.SubjectDTO;
-import fr.fajitasmaster974.EvergreenData.DTO.UserDTO;
 import fr.fajitasmaster974.EvergreenData.DTO.Body.ResponseBody;
 import fr.fajitasmaster974.EvergreenData.Entities.SubjectCriteria;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Exception.NotFoundException;
 import fr.fajitasmaster974.EvergreenData.Services.CriteriaService;
-import fr.fajitasmaster974.EvergreenData.Services.SubjectService;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
 import jakarta.validation.Valid;
 
@@ -39,15 +36,15 @@ public class UserSubjectController {
 
     @GetMapping("/joined")
     public ResponseEntity<List<SubjectDTO>> getJoinedSubjects(Principal principal) {
-        String login = principal.getName();
-        User user = userService.getUserByLogin(login).orElseThrow(() -> new NotFoundException("user not found"));
+        String email = principal.getName();
+        User user = userService.getUserByEmail(email).orElseThrow(() -> new NotFoundException("user not found"));
         return new ResponseEntity<>(SubjectDTO.fromSubjects(user.getJoinedSubjects()), HttpStatus.OK);
     }
 
     @PostMapping("/response")
     public ResponseEntity<SubjectCriteriaDTO> response(Principal principal, @RequestBody @Valid ResponseBody responseBody) {
-        String login = principal.getName();
-        User user = userService.getUserByLogin(login).orElseThrow(() -> new NotFoundException("user not found"));
+        String email = principal.getName();
+        User user = userService.getUserByEmail(email).orElseThrow(() -> new NotFoundException("user not found"));
 
         SubjectCriteria subjectCriteria = criteriaService.response(user.getId(), responseBody.getSubjectId(), responseBody.getCriteriaId(), responseBody.getContent());
         return new ResponseEntity<>(new SubjectCriteriaDTO(subjectCriteria), HttpStatus.OK);

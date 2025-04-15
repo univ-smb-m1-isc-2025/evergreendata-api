@@ -44,7 +44,7 @@ public class AuthController {
     @PostMapping("/signIn")
     public ResponseEntity<TokenDTO> addNewUser(@RequestBody @Valid SignInBody signInBody) {
         String encodedPass = passwordEncoder.encode(signInBody.getPassword());
-        User user = userService.createUser(signInBody.getLogin(), signInBody.getEmail(), encodedPass, signInBody.getFirstName(), signInBody.getLastName());
+        User user = userService.createUser(signInBody.getEmail(), encodedPass, signInBody.getFirstName(), signInBody.getLastName());
 
         String token = jwtUtils.generateToken(user);
         return new ResponseEntity<>(new TokenDTO(new UserDTO(user), token), HttpStatus.OK);
@@ -55,10 +55,10 @@ public class AuthController {
     public ResponseEntity<TokenDTO> authenticateAndGetToken(@RequestBody @Valid LogInBody logInBody) {
         try{
             UsernamePasswordAuthenticationToken authInputToken =
-                    new UsernamePasswordAuthenticationToken(logInBody.getLogin(), logInBody.getPassword());
+                    new UsernamePasswordAuthenticationToken(logInBody.getEmail(), logInBody.getPassword());
             authenticationManager.authenticate(authInputToken);
 
-            Optional<User> optionalUser = userService.getUserByLogin(logInBody.getLogin());
+            Optional<User> optionalUser = userService.getUserByEmail(logInBody.getEmail());
             User user = optionalUser.orElseThrow();
             String token = jwtUtils.generateToken(user);
 
