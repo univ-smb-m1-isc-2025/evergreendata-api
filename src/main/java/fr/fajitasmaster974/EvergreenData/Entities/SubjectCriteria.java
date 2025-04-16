@@ -37,9 +37,9 @@ public class SubjectCriteria {
     @OneToMany(mappedBy = "subjectCriteria", cascade = CascadeType.ALL)
     private Set<Documentation> documentations;
 
-    public SubjectCriteria(Criteria criteria, Subject subject) {
-        this.id = new SubjectCriteriaId(subject.getId(), criteria.getId());
-        this.criteria = criteria;
+    public SubjectCriteria(Criteria criteria2, Subject subject) {
+        this.id = new SubjectCriteriaId(subject.getId(), criteria2.getId());
+        this.criteria = criteria2;
         this.subject = subject;
         this.documentations = new HashSet<>();
     }
