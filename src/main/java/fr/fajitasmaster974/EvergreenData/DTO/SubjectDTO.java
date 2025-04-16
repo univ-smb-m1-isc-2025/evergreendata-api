@@ -20,7 +20,7 @@ public class SubjectDTO {
     }
     
 
-    public static List<SubjectDTO> fromSubjects(List<Subject> subjects) {
+    public static List<SubjectDTO> fromSubjects(Iterable<Subject> subjects) {
         List<SubjectDTO> subjectDTOs = new ArrayList<SubjectDTO>();
         for (Subject subject : subjects) {
             subjectDTOs.add(new SubjectDTO(subject));

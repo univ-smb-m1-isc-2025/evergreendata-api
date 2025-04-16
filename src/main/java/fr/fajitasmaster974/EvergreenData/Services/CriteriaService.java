@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import fr.fajitasmaster974.EvergreenData.Entities.Criteria;
 import fr.fajitasmaster974.EvergreenData.Entities.Documentation;
-import fr.fajitasmaster974.EvergreenData.Entities.Subject;
 import fr.fajitasmaster974.EvergreenData.Entities.SubjectCriteria;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Entities.Id.SubjectCriteriaId;

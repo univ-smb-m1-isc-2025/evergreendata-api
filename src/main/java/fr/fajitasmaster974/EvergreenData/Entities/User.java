@@ -35,27 +35,25 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String password;
-    private String login;
     private String email;
     private Role role;
     private String lastName;
     private String firstName;
 
-    @OneToMany(mappedBy = "deputy", cascade = CascadeType.ALL)
-    private Set<SubjectDeputy> deputySubjects;
+    @OneToMany(mappedBy = "deputy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SubjectDeputy> joinedSubjectsDeputy;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Documentation> documentations;
  
-    public User(String password, String login, String email, Role role, String lastName, String firstName) {
+    public User(String password, String email, Role role, String lastName, String firstName) {
         this.password = password;
-        this.login = login;
         this.email = email;
         this.role = role;
         this.lastName = lastName;
         this.firstName = firstName;
 
-        this.deputySubjects = new HashSet<>();
+        this.joinedSubjectsDeputy = new HashSet<>();
         this.documentations = new HashSet<>();
     }
 
@@ -77,19 +75,18 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
 
-
-
-    public List<Subject> getSubjects() {
+    public List<Subject> getJoinedSubjects() {
         List<Subject> subjects = new ArrayList<>();
 
-        for (SubjectDeputy subjectDeputy : deputySubjects) {
+        for (SubjectDeputy subjectDeputy : joinedSubjectsDeputy) {
             subjects.add(subjectDeputy.getSubject());
         }
 
         return subjects;
     }
+
 }

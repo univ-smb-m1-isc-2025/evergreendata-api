@@ -13,7 +13,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UserDTO {
-    private String login;
     private String email;
     private Role role;
     private String lastName;
@@ -21,7 +20,6 @@ public class UserDTO {
     private Integer id;
 
     public UserDTO(User user) {
-        this.login = user.getLogin();
         this.email = user.getEmail();
         this.role = user.getRole();
         this.id = user.getId();

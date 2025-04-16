@@ -23,7 +23,7 @@ public class JwtUtils {
             IllegalArgumentException, JWTCreationException {
         return JWT.create()
                 .withSubject("User Details")
-                .withClaim("username", user.getLogin())
+                .withClaim("username", user.getEmail())
                 .withClaim("role", user.getRole().name())
                 .withIssuedAt(new Date())
                 .withIssuer("JOB TRACKER APPLICATION")

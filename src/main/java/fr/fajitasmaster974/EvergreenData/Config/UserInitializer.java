@@ -19,17 +19,18 @@ public class UserInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        TryCreateNewUser("Gicleur_furtif","Gege", "Eze");
-        TryCreateNewUser("MikeHawk", "Mike", "Hawk");
-        TryCreateNewUser("RaySchisme", "Ray", "Schisme");
+        TryCreateNewUser("Gege", "Eze");
+        TryCreateNewUser("Mike", "Hawk");
+        TryCreateNewUser("Ray", "Schisme");
     }
 
 
-    private void TryCreateNewUser(String login, String firstName, String lastName) {
-        if (!userRepository.existsByLogin(login)) {
+    private void TryCreateNewUser(String firstName, String lastName) {
+        String email = firstName + lastName + "@gmail.com";
+        if (!userRepository.existsByEmail(email)) {
             String password = passwordEncoder.encode("password");
-            userService.createUser(login, login + "@gmail.com", password, firstName, lastName);
-            System.out.println("Admin account created");
+            userService.createUser(email, password, firstName, lastName);
+            System.out.println("User " + email + " account created");
         }
     }
     

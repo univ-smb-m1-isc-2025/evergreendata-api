@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.fajitasmaster974.EvergreenData.DTO.UserDTO;
+import fr.fajitasmaster974.EvergreenData.Services.MailService;
 import fr.fajitasmaster974.EvergreenData.Services.UserService;
 
 @RestController
@@ -21,6 +22,9 @@ public class TestControl {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MailService mailService;
     
 
     @GetMapping("/hello/{nom}")
@@ -32,5 +36,13 @@ public class TestControl {
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAllUser(Principal principal) {
         return new ResponseEntity<>(UserDTO.fromList(userService.getAllUsers()), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/mailTest")
+    public ResponseEntity<Void> sendMail() {
+        mailService.SendMailTest();
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

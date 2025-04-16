@@ -4,8 +4,6 @@ import lombok.Data;
 
 @Data
 public class SignInBody {
-    private String login;
-
     private String password;
 
     private String email;

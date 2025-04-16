@@ -11,8 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Entities.Enum.Role;
+import fr.fajitasmaster974.EvergreenData.Exception.NotFoundException;
 import fr.fajitasmaster974.EvergreenData.Repositories.UserRepository;
 
 
@@ -23,7 +25,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByLogin(username);
+        Optional<User> userOptional = userRepository.findByEmail(username);
 
         if(userOptional.isEmpty())
             throw new UsernameNotFoundException("No user found with this username " + username);
@@ -39,14 +41,14 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public User createUser(String login, String email, String password, String firstName, String lastName) {
-        User user = new User(password, login, email, Role.user, lastName, firstName);
+    public User createUser(String email, String password, String firstName, String lastName) {
+        User user = new User(password, email, Role.user, lastName, firstName);
         userRepository.save(user);
         return user;
     }
 
-    public User createAdmin(String login, String email, String password, String firstName, String lastName) {
-        User user = new User(password, login, email, Role.admin, lastName, firstName);
+    public User createAdmin(String email, String password, String firstName, String lastName) {
+        User user = new User(password, email, Role.admin, lastName, firstName);
         userRepository.save(user);
         return user;
     }
@@ -55,8 +57,20 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserByLogin(String login) {
-        return userRepository.findByLogin(login);
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
+
+
+    public void invalidUser(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+    
+        user.getDocumentations().clear();
+        user.getJoinedSubjectsDeputy().clear();
+
+        userRepository.save(user);
     }
 }
 
