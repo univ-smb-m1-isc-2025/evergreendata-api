@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import fr.fajitasmaster974.EvergreenData.Entities.Criteria;
 import fr.fajitasmaster974.EvergreenData.Entities.Documentation;
 import fr.fajitasmaster974.EvergreenData.Entities.SubjectCriteria;
+import fr.fajitasmaster974.EvergreenData.Entities.SubjectDeputy;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Entities.Id.SubjectCriteriaId;
+import fr.fajitasmaster974.EvergreenData.Entities.Id.SubjectUserId;
 import fr.fajitasmaster974.EvergreenData.Exception.NotFoundException;
 import fr.fajitasmaster974.EvergreenData.Repositories.CriteriaRepository;
 import fr.fajitasmaster974.EvergreenData.Repositories.DocumentationRepository;
 import fr.fajitasmaster974.EvergreenData.Repositories.SubjectCriteriaRepository;
+import fr.fajitasmaster974.EvergreenData.Repositories.SubjectDeputyRepository;
 import fr.fajitasmaster974.EvergreenData.Repositories.UserRepository;
 
 @Service
@@ -26,6 +29,9 @@ public class CriteriaService {
     private SubjectCriteriaRepository subjectCriteriaRepository;
     @Autowired
     private DocumentationRepository documentationRepository;
+
+    @Autowired
+    private SubjectDeputyRepository subjectDeputyRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -40,6 +46,10 @@ public class CriteriaService {
         return criteriaRepository.save(c);
     }
 
+    public void delete(Integer criteriaId) {
+        criteriaRepository.deleteById(criteriaId);
+    }
+
 
 
 
@@ -48,6 +58,11 @@ public class CriteriaService {
         SubjectCriteria subjectCriteria = subjectCriteriaRepository.findById(new SubjectCriteriaId(subjectId, criteriaId)).orElseThrow(() -> new NotFoundException("Criteria not assign to subject"));
         Optional<Documentation> optDoc = documentationRepository.findFirstDocumentationBySubjectCriteriaAndAuthor(new SubjectCriteriaId(subjectId, criteriaId), userId);
     
+
+        if (!subjectDeputyRepository.existsById(new SubjectUserId(subjectId, userId))) {
+            throw new NotFoundException("user not in subject");
+        }
+
         Documentation doc;
         if (optDoc.isPresent()) {
             doc = optDoc.get();
