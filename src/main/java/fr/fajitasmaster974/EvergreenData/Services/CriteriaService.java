@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import fr.fajitasmaster974.EvergreenData.Entities.Criteria;
 import fr.fajitasmaster974.EvergreenData.Entities.Documentation;
 import fr.fajitasmaster974.EvergreenData.Entities.SubjectCriteria;
-import fr.fajitasmaster974.EvergreenData.Entities.SubjectDeputy;
 import fr.fajitasmaster974.EvergreenData.Entities.User;
 import fr.fajitasmaster974.EvergreenData.Entities.Id.SubjectCriteriaId;
 import fr.fajitasmaster974.EvergreenData.Entities.Id.SubjectUserId;
@@ -59,7 +58,7 @@ public class CriteriaService {
         Optional<Documentation> optDoc = documentationRepository.findFirstDocumentationBySubjectCriteriaAndAuthor(new SubjectCriteriaId(subjectId, criteriaId), userId);
     
 
-        if (!subjectDeputyRepository.existsById(new SubjectUserId(subjectId, userId))) {
+        if (!subjectDeputyRepository.existsById(new SubjectUserId(userId, subjectId))) {
             throw new NotFoundException("user not in subject");
         }
 

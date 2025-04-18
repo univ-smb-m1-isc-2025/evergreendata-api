@@ -84,7 +84,7 @@ public class CriteriaServiceTest {
         Documentation existingDoc = new Documentation(subjectCriteria, "ancien contenu", new User());
         when(subjectCriteriaRepository.findById(sci)).thenReturn(Optional.of(subjectCriteria));
         when(documentationRepository.findFirstDocumentationBySubjectCriteriaAndAuthor(sci, userId)).thenReturn(Optional.of(existingDoc));
-        when(subjectDeputyRepository.existsById(new SubjectUserId(subjectId, userId))).thenReturn(true);
+        when(subjectDeputyRepository.existsById(new SubjectUserId(userId, subjectId))).thenReturn(true);
 
         when(subjectCriteriaRepository.save(subjectCriteria)).thenReturn(subjectCriteria);
 
@@ -105,7 +105,7 @@ public class CriteriaServiceTest {
 
         when(subjectCriteriaRepository.findById(sci)).thenReturn(Optional.of(subjectCriteria));
         when(documentationRepository.findFirstDocumentationBySubjectCriteriaAndAuthor(sci, userId)).thenReturn(Optional.empty());
-        when(subjectDeputyRepository.existsById(new SubjectUserId(subjectId, userId))).thenReturn(true);
+        when(subjectDeputyRepository.existsById(new SubjectUserId(userId, subjectId))).thenReturn(true);
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         when(subjectCriteriaRepository.save(subjectCriteria)).thenReturn(subjectCriteria);
@@ -123,7 +123,7 @@ public class CriteriaServiceTest {
         SubjectCriteriaId sci = new SubjectCriteriaId(subjectId, criteriaId);
         when(subjectCriteriaRepository.findById(sci)).thenReturn(Optional.of(new SubjectCriteria(new Criteria("C"), new Subject("S"))));
         when(documentationRepository.findFirstDocumentationBySubjectCriteriaAndAuthor(sci, userId)).thenReturn(Optional.empty());
-        when(subjectDeputyRepository.existsById(new SubjectUserId(subjectId, userId))).thenReturn(false);
+        when(subjectDeputyRepository.existsById(new SubjectUserId(userId, subjectId))).thenReturn(false);
 
         assertThrows(NotFoundException.class, () ->
             criteriaService.response(userId, subjectId, criteriaId, "contenu")

@@ -58,4 +58,9 @@ public class AdminController {
     public ResponseEntity<List<SubjectFullDTO>> userDoc(@PathVariable Integer id) {
         return new ResponseEntity<>(SubjectFullDTO.fromSubjects(subjectService.getSubjectsFiltered(id)), HttpStatus.OK);
     }
+
+    @GetMapping("/user/all")
+    public ResponseEntity<List<UserDTO>> getAllUser(Principal principal) {
+        return new ResponseEntity<>(UserDTO.fromList(userService.getAllUsers()), HttpStatus.OK);
+    }
 }
